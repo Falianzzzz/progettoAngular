@@ -1,0 +1,21 @@
+<section class="section-card page-section">
+  <div class="page-header">
+    <h2 class="page-title">Lista movimenti</h2>
+    <p class="page-subtitle">Visualizza tutte le operazioni del conto.</p>
+  </div>
+
+  <div *ngFor="let movimento of movimenti" class="movimento-card">
+    <a [routerLink]="['/movimenti', movimento.id]" class="movimento-link">
+      <div class="movimento-card-row">
+        <p><strong>Data:</strong> {{ movimento.data | date:'dd/MM/yyyy HH:mm' }}</p>
+        <span class="muted">#{{ movimento.id }}</span>
+      </div>
+      <div class="movimento-card-row">
+        <p><strong>Tipo:</strong> {{ movimento.tipo }}</p>
+        <p><strong>Importo:</strong> €{{ movimento.importo }}</p>
+      </div>
+      <p><strong>Descrizione:</strong> {{ movimento.descrizione }}</p>
+    </a>
+  </div>
+</section>
+

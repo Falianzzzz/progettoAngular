@@ -1,0 +1,19 @@
+<section class="section-card page-section">
+  <h2 class="page-title">Deposito</h2>
+  <p class="page-subtitle">Inserisci l'importo e una breve descrizione.</p>
+
+  <div class="field-group">
+    <label class="field-label" for="amount">Importo</label>
+    <input [(ngModel)]="amount" type="number" id="amount" name="amount" required />
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="descrizione">Descrizione (opzionale)</label>
+    <input [(ngModel)]="descrizione" id="descrizione" name="descrizione" />
+  </div>
+
+  <button type="button" class="btn-primary" (click)="deposita()">Deposita</button>
+
+  <div *ngIf="message" class="success">{{ message }}</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+</section>
