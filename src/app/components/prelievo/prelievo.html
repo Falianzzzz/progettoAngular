@@ -10,7 +10,7 @@
 
   <div class="field-group">
     <label class="field-label" for="descrizione">Descrizione (opzionale)</label>
-    <input [(ngModel)]="descrizione" id="descrizione" name="descrizione" />
+    <textarea [(ngModel)]="descrizione" id="descrizione" name="descrizione" placeholder="Aggiungi una nota..."></textarea>
   </div>
 
   <button type="button" class="btn-danger" (click)="prelieva()">Preleva</button>

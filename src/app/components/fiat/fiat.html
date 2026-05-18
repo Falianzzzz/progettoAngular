@@ -1,1 +1,20 @@
-<p>fiat works!</p>
+<div class="conversion-container">
+  <h2>Conversione Fiat</h2>
+  <div class="form-group">
+    <label for="euro">Importo in Euro (€):</label>
+    <input type="number" id="euro" [(ngModel)]="euroAmount" (input)="convert()" placeholder="Inserisci importo">
+    <button (click)="useCurrentBalance()">Usa Saldo Attuale</button>
+  </div>
+
+  <div class="form-group">
+    <label for="currency">Converti in:</label>
+    <select id="currency" [(ngModel)]="selectedCurrency" (change)="convert()">
+      <option *ngFor="let rate of rates | keyvalue" [value]="rate.key">{{ rate.key }}</option>
+    </select>
+  </div>
+
+  <div class="result" *ngIf="result !== null">
+    <h3>Risultato:</h3>
+    <p>{{ euroAmount | currency:'EUR' }} = {{ result | number:'1.2-2' }} {{ selectedCurrency }}</p>
+  </div>
+</div>
