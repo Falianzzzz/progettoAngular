@@ -11,7 +11,7 @@ import { Movimento } from '../../movimento';
   imports: [CommonModule, RouterLink],
 })
 export class ListaMovimenti implements OnInit {
-  movimenti: Movimento[] = [ ];
+  movimenti: Movimento[] = [];
 
   constructor(private bankservice: Bankservice) {}
 
@@ -20,7 +20,6 @@ export class ListaMovimenti implements OnInit {
   }
 
   aggingiMovimento(movimento: Movimento) {
-    this.movimenti.push(movimento);
     this.bankservice.addMovimento(movimento);
   }
 }

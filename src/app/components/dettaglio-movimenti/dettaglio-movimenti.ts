@@ -13,7 +13,6 @@ import { RouterLink } from '@angular/router';
 })
 export class DettaglioMovimenti implements OnInit {
   movimento?: Movimento;
-  notFound = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,9 +25,7 @@ export class DettaglioMovimenti implements OnInit {
     const id = idParam ? Number(idParam) : NaN;
     if (!isNaN(id)) {
       this.movimento = this.bankservice.getMovimentoById(id);
-      this.notFound = !this.movimento;
-    } else {
-      this.notFound = true;
+
     }
   }
 

@@ -7,7 +7,7 @@
   <div *ngFor="let movimento of movimenti" class="movimento-card">
     <a [routerLink]="['/movimenti', movimento.id]" class="movimento-link">
       <div class="movimento-card-row">
-        <p><strong>Data:</strong> {{ movimento.data | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p><strong>Data:</strong> {{ movimento.data }}</p>
         <span class="muted">#{{ movimento.id }}</span>
       </div>
       <div class="movimento-card-row">

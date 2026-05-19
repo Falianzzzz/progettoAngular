@@ -1,0 +1,94 @@
+.section-card.page-section {
+  /* box/card layout */
+  max-width: 480px;
+  margin: 32px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(22, 28, 37, 0.08);
+  border: 1px solid rgba(22, 28, 37, 0.04);
+  box-sizing: border-box;
+}
+
+.page-title {
+  margin: 0 0 6px 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #162c4d;
+}
+
+.page-subtitle {
+  margin: 0 0 16px 0;
+  font-size: 0.95rem;
+  color: #556076;
+}
+
+/* field group and inputs */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.field-label {
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.field-group input[type="text"],
+.field-group input[type="password"],
+.field-group input[type="email"],
+.field-group input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fafafa;
+  color: #0f172a;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+/* button styles */
+.btn-danger {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 10px 14px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.12s ease, transform 0.06s ease;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+/* responsive tweaks */
+@media (max-width: 520px) {
+  .section-card.page-section {
+    margin: 16px;
+    padding: 16px;
+  }
+  .page-title {
+    font-size: 1.2rem;
+  }
+}

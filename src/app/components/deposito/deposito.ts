@@ -17,15 +17,8 @@ export class Deposito {
   constructor(private bankservice: Bankservice) {}
 
   deposita() {
-    this.message = '';
-    this.error = '';
-    if (!this.amount || this.amount <= 0) {
-      this.error = 'Inserisci un importo positivo.';
-      return;
-    }
 
-    this.bankservice.depositaConto(this.amount);
-    this.message = `Deposito di ${this.amount} eseguito.`;
+    this.bankservice.depositaConto(this.amount,this.descrizione);
     this.amount = 0;
     this.descrizione = '';
   }
