@@ -21,9 +21,13 @@ export class Bankservice {
     let totale = 0;
     for (const m of this.movimenti) {
       const tipo = (m.tipo || '').toString().toLowerCase();
-      const isPrelievo = tipo.includes('Prelievo') || tipo.includes('Deposito');
-      if(isPrelievo)  totale -= m.importo;
-       else totale += m.importo;
+      const isPrelievo = tipo.includes('prelievo');
+      const isDeposito = tipo.includes('deposito');
+      if (isPrelievo) {
+        totale -= m.importo;
+      } else if (isDeposito) {
+        totale += m.importo;
+      }
     }
     return totale;
   }
