@@ -1,0 +1,135 @@
+:root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --accent: #1e90ff;
+  --danger: #e74c3c;
+  --text: #2c3e50;
+  --muted: #7f8c8d;
+  --radius: 8px;
+  --shadow: 0 6px 18px rgba(44,62,80,0.08);
+}
+
+/* Container generale */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+  background: var(--bg);
+}
+
+/* Card form (simile a prelievo) */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.75rem;
+  box-sizing: border-box;
+}
+
+/* Titolo */
+.login-card h2 {
+  margin: 0 0 0.75rem 0;
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Descrizione / sottotitolo */
+.login-card p.sub {
+  margin: 0 0 1rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Form elements */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.9rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.form-group input,
+.form-group input[type="password"],
+.form-group input[type="email"] {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #e6e9ee;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  background: #fff;
+  color: var(--text);
+}
+
+.form-group input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(30,144,255,0.08);
+}
+
+/* Errori / avvisi */
+.helper {
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--danger);
+}
+
+/* Pulsanti */
+.btn-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  align-items: center;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.7rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--accent), #0074d9);
+  color: #fff;
+  box-shadow: 0 6px 12px rgba(30,144,255,0.12);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #dfe6ee;
+  color: var(--text);
+}
+
+/* Small helper row: es. link "password dimenticata" */
+.help-row {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1rem;
+    border-radius: 6px;
+  }
+  .btn-row {
+    flex-direction: column;
+  }
+}

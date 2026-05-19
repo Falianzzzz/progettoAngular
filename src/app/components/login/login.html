@@ -1,0 +1,12 @@
+<section class="section-card page-section">
+  <h2 class="page-title">Login</h2>
+  <p class="page-subtitle">Fai l'accesso al sito</p>
+
+  <div class="field-group">
+    <label class="field-label" for="userinfo"></label>
+   Name: <input [(ngModel)]="name" type="text" id="name" name="name" required />
+  Surname:  <input [(ngModel)]="surname" type="text" id="surname" name="surname" required />
+   Password: <input [(ngModel)]="password" type="password" id="password" name="password" required />
+  </div>
+  <button type="button" class="btn-danger">Accedi</button>
+</section>

@@ -7,17 +7,18 @@ import { Fiat } from './components/fiat/fiat';
 import { DettaglioMovimenti } from './components/dettaglio-movimenti/dettaglio-movimenti';
 import { ListaMovimenti } from './components/lista-movimenti/lista-movimenti';
 import { Crypto } from './components/crypto/crypto';
+import { Login } from './components/login/login';
 
 
 export const routes: Routes = [
-
-{path:'deposit',component:Deposito},
-{path:'prelievo',component:Prelievo},
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: Login },
+  { path: 'deposit', component: Deposito },
+  { path: 'prelievo', component: Prelievo },
   { path: 'saldo', component: Saldo },
   { path: 'prelievi', component: Prelievo },
   { path: 'movimenti', component: ListaMovimenti },
   { path: 'movimenti/:id', component: DettaglioMovimenti },
   { path: 'converti-fiat', component: Fiat },
   { path: 'converti-crypto', component: Crypto },
-
 ];
