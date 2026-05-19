@@ -18,19 +18,22 @@ export class Bankservice {
   }
 
   getConto() {
-    return this.movimenti.reduce((acc, m) => {
+    let totale = 0;
+    for (const m of this.movimenti) {
       const tipo = (m.tipo || '').toString().toLowerCase();
-      const isPrelievo = tipo.includes('preliev') || tipo.includes('withdraw');
-      return acc + (isPrelievo ? -m.importo : m.importo);
-    }, 0);
+      const isPrelievo = tipo.includes('Prelievo') || tipo.includes('Deposito');
+      if(isPrelievo)  totale -= m.importo;
+       else totale += m.importo;
+    }
+    return totale;
   }
 
-  depositaConto(dep: number) {
-    this.createMovimento('Deposito', dep, 'Deposito');
+  depositaConto(dep: number,desrizione: string) {
+    this.createMovimento('Deposito', dep, desrizione);
   }
 
-  prelievoConto(dep: number) {
-    this.createMovimento('Prelievo', dep, 'Prelievo');
+  prelievoConto(dep: number,desrizione: string) {
+    this.createMovimento('Prelievo', dep, desrizione);
   }
 
 
@@ -58,7 +61,7 @@ return this.movimenti;
   }
 
   createMovimento(tipo: string, importo: number, descrizione: string) {
-    const nextId = this.movimenti.length ? Math.max(...this.movimenti.map(m => m.id)) + 1 : 0;
+    const nextId = this.movimenti.length;
     const movimento: Movimento = {
       id: nextId,
       data: new Date(),
@@ -68,7 +71,6 @@ return this.movimenti;
     };
     this.movimenti.push(movimento);
     this.saldoSubject.next(this.getConto());
-    return movimento;
   }
 
 addMovimento(movimento: Movimento) {

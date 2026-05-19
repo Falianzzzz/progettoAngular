@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-saldo',
-  imports: [RouterLink,CommonModule],
+  imports: [CommonModule],
   templateUrl: './saldo.html',
   styleUrl: './saldo.css',
 })
