@@ -1,5 +1,3 @@
-import { describe } from './../../node_modules/zod/src/v4/mini/schemas';
-import { number } from './../../node_modules/zod/src/v4/core/regexes';
 import { Injectable } from '@angular/core';
 import { Movimento } from './movimento';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -20,22 +18,19 @@ export class Bankservice {
   }
 
   getConto() {
-    let totale = 0;
-    for (const m of this.movimenti) {
+    return this.movimenti.reduce((acc, m) => {
       const tipo = (m.tipo || '').toString().toLowerCase();
-      const isPrelievo = tipo.includes('Prelievo') || tipo.includes('Deposito');
-      if(isPrelievo)  totale -= m.importo;
-       else totale += m.importo;
-    }
-    return totale;
+      const isPrelievo = tipo.includes('preliev') || tipo.includes('withdraw');
+      return acc + (isPrelievo ? -m.importo : m.importo);
+    }, 0);
   }
 
-  depositaConto(dep: number,desrizione: string) {
-    this.createMovimento('Deposito', dep, desrizione);
+  depositaConto(dep: number) {
+    this.createMovimento('Deposito', dep, 'Deposito');
   }
 
-  prelievoConto(dep: number,desrizione: string) {
-    this.createMovimento('Prelievo', dep, desrizione);
+  prelievoConto(dep: number) {
+    this.createMovimento('Prelievo', dep, 'Prelievo');
   }
 
 
@@ -63,7 +58,7 @@ return this.movimenti;
   }
 
   createMovimento(tipo: string, importo: number, descrizione: string) {
-    const nextId = this.movimenti.length;
+    const nextId = this.movimenti.length ? Math.max(...this.movimenti.map(m => m.id)) + 1 : 0;
     const movimento: Movimento = {
       id: nextId,
       data: new Date(),
@@ -73,6 +68,7 @@ return this.movimenti;
     };
     this.movimenti.push(movimento);
     this.saldoSubject.next(this.getConto());
+    return movimento;
   }
 
 addMovimento(movimento: Movimento) {

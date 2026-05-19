@@ -1,12 +1,17 @@
 <section class="section-card page-section">
   <h2 class="page-title">Dettaglio movimento</h2>
 
-  <div *ngIf="movimento" class="dettaglio-card">
+  <div *ngIf="!notFound && movimento" class="dettaglio-card">
     <p><strong>Id:</strong> {{ movimento.id }}</p>
-    <p><strong>Data:</strong> {{ movimento.data }}</p>
+    <p><strong>Data:</strong> {{ movimento.data | date:'dd/MM/yyyy HH:mm' }}</p>
     <p><strong>Tipo:</strong> {{ movimento.tipo }}</p>
     <p><strong>Importo:</strong> €{{ movimento.importo }}</p>
     <p><strong>Descrizione:</strong> {{ movimento.descrizione }}</p>
     <button class="btn-secondary" (click)="back()">Indietro</button>
+  </div>
+
+  <div *ngIf="notFound" class="dettaglio-card">
+    <p>Movimento non trovato.</p>
+    <button class="btn-secondary" (click)="back()">Torna alla lista</button>
   </div>
 </section>
