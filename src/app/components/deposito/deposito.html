@@ -12,5 +12,9 @@
     <textarea [(ngModel)]="descrizione" id="descrizione" name="descrizione" placeholder="Aggiungi una nota..."></textarea>
   </div>
 
-  <button type="button" class="btn-primary" (click)="deposita()">Deposita</button>
+  <div *ngIf="message" class="success-message">{{ message }}</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+  <button type="button" class="btn-primary" (click)="deposita()" [disabled]="isLoading">
+    {{ isLoading ? 'Deposito in corso...' : 'Deposita' }}
+  </button>
 </section>

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Bankservice } from '../../bankservice';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -10,15 +9,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './saldo.html',
   styleUrl: './saldo.css',
 })
-export class Saldo implements OnInit {
+export class Saldo implements OnInit, OnDestroy {
   saldo: number = 0;
   private sub?: Subscription;
 
   constructor(private bankservice: Bankservice) {}
 
   ngOnInit(): void {
-    this.saldo = this.bankservice.getConto();
-    this.sub = this.bankservice.saldo$.subscribe((s) => (this.saldo = s));
+    this.sub = this.bankservice.saldo$.subscribe((value) => {
+      this.saldo = value;
+    });
   }
 
   ngOnDestroy(): void {
