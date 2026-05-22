@@ -7,12 +7,12 @@ import { Fiat } from './components/fiat/fiat';
 import { DettaglioMovimenti } from './components/dettaglio-movimenti/dettaglio-movimenti';
 import { ListaMovimenti } from './components/lista-movimenti/lista-movimenti';
 import { Crypto } from './components/crypto/crypto';
-import { Login } from './components/login/login';
+import { Home } from './components/home/home';
 
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: Login },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: Home },
   { path: 'deposit', component: Deposito },
   { path: 'prelievo', component: Prelievo },
   { path: 'saldo', component: Saldo },

@@ -1,0 +1,23 @@
+<section class="page-header">
+  <h2 class="page-title">Benvenuto</h2>
+  <p class="page-subtitle">Gestisci il tuo conto in modo semplice e veloce.</p>
+</section>
+
+<section class="page-section">
+  <div class="saldo-box">
+    <span class="saldo-label">Saldo conto</span>
+    <span class="saldo-ammontare">€ {{ balance() | number:'1.2-2' }}</span>
+  </div>
+</section>
+
+<section class="page-section">
+  <h2 class="page-title">Operazioni rapide</h2>
+  <div class="actions-grid">
+    <a *ngFor="let a of quickActions" [routerLink]="a.route" class="action-card">
+      <span class="action-icon">{{ a.icon }}</span>
+      <span class="action-label">{{ a.label }}</span>
+    </a>
+  </div>
+</section>
+
+

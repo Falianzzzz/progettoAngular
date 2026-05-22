@@ -1,0 +1,22 @@
+.dettaglio-value {
+  color: var(--text-secondary);
+  text-align: right;
+  flex: 1;
+  margin-left: 16px;
+  word-break: break-word;
+  font-family: var(--font-mono);
+}
+
+.dettaglio-value.tipo {
+  text-transform: capitalize;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.dettaglio-value.amount-deposit {
+  color: var(--success);
+}
+
+.dettaglio-value.amount-withdrawal {
+  color: var(--danger);
+}

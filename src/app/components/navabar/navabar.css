@@ -1,0 +1,76 @@
+.app-navbar {
+  justify-content: center;
+  gap: 12px;
+}
+
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-group a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.nav-group a:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text);
+}
+
+.nav-group a.active {
+  background-color: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 8px 20px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.brand:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.brand-icon {
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .brand-text {
+    display: none;
+  }
+
+  .nav-group a {
+    padding: 6px 10px;
+    font-size: 0.8125rem;
+  }
+
+  .brand {
+    padding: 8px 12px;
+  }
+}

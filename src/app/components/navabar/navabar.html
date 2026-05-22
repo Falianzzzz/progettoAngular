@@ -1,8 +1,18 @@
 <nav class="app-navbar">
-	<a routerLink="/deposit">Deposito</a>
-	<a routerLink="/prelievo">Prelievo</a>
-	<a routerLink="/saldo">Saldo</a>
-	<a routerLink="/movimenti">Lista Movimenti</a>
-	<a routerLink="/converti-fiat">Converti in fiat</a>
-	<a routerLink="/converti-crypto">Converti in crypto</a>
+  <div class="nav-group">
+    <a routerLink="/deposit" routerLinkActive="active">Deposito</a>
+    <a routerLink="/prelievo" routerLinkActive="active">Prelievo</a>
+  </div>
+
+  <a routerLink="/home" class="brand" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <span class="brand-icon">◆</span>
+    <span class="brand-text">HomeBanking</span>
+  </a>
+
+  <div class="nav-group">
+    <a routerLink="/saldo" routerLinkActive="active">Saldo</a>
+    <a routerLink="/movimenti" routerLinkActive="active">Movimenti</a>
+    <a routerLink="/converti-fiat" routerLinkActive="active">Fiat</a>
+    <a routerLink="/converti-crypto" routerLinkActive="active">Crypto</a>
+  </div>
 </nav>
