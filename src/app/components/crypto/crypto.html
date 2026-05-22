@@ -1,31 +1,23 @@
 <section class="section-card page-section">
   <h2 class="page-title">Conversione Crypto</h2>
-  <p class="page-subtitle">Converti il tuo saldo in criptovalute.</p>
+  <p class="page-subtitle">Seleziona una criptovaluta per convertire il tuo saldo.</p>
 
   <div class="field-group">
-    <label class="field-label" for="crypto">Converti in</label>
+    <label class="field-label" for="crypto">Criptovaluta</label>
     <select id="crypto" [ngModel]="selectedCrypto()" (ngModelChange)="selectedCrypto.set($event)">
       <option *ngFor="let c of cryptos" [value]="c.symbol">{{ c.name }} ({{ c.symbol }})</option>
     </select>
   </div>
 
-  <button type="button" class="btn-primary" (click)="convert()" [disabled]="loading()">
-    {{ loading() ? 'Convertendo...' : 'Converti' }}
-  </button>
-
   @if (conversionData()) {
     <div class="result">
       <div class="result-row">
-        <span class="result-label">Saldo in EUR</span>
+        <span class="result-label">Saldo</span>
         <span class="result-value">{{ conversionData().fiat_balance | number:'1.2-2' }} {{ conversionData().fiat_currency }}</span>
       </div>
       <div class="result-row">
-        <span class="result-label">{{ conversionData().crypto_currency }}</span>
-        <span class="result-value crypto">{{ conversionData().crypto_amount | number:'1.6-6' }} {{ conversionData().crypto_currency }}</span>
-      </div>
-      <div class="result-row">
-        <span class="result-label">Prezzo unitario</span>
-        <span class="result-value price">{{ conversionData().crypto_price_eur | number:'1.2-2' }} {{ conversionData().fiat_currency }}</span>
+        <span class="result-label">Saldo in {{ conversionData().crypto_currency }}</span>
+        <span class="result-value crypto">{{ conversionData().crypto_price_eur | number:'1.2-2' }} {{ conversionData().fiat_currency }}</span>
       </div>
     </div>
   }

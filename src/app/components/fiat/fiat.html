@@ -1,24 +1,30 @@
 <section class="section-card page-section">
   <h2 class="page-title">Conversione Fiat</h2>
-  <p class="page-subtitle">Converti un importo da Euro in altre valute fiat.</p>
+  <p class="page-subtitle">Seleziona una valuta per convertire il tuo saldo.</p>
 
   <div class="field-group">
-    <label class="field-label" for="euro">Importo in Euro (€)</label>
-    <div class="input-row">
-      <input type="number" id="euro" [(ngModel)]="euroAmount" (input)="convert()" placeholder="Inserisci importo">
-      <button type="button" class="btn-secondary" (click)="useCurrentBalance()">Usa Saldo</button>
-    </div>
-  </div>
-
-  <div class="field-group">
-    <label class="field-label" for="fiat">Converti in</label>
-    <select id="fiat" [(ngModel)]="selectedFiat" (change)="convert()">
-      <option *ngFor="let rate of rates | keyvalue" [value]="rate.key">{{ rate.key }}</option>
+    <label class="field-label" for="fiat">Valuta</label>
+    <select id="fiat" [ngModel]="selectedFiat()" (ngModelChange)="selectedFiat.set($event)">
+      <option *ngFor="let f of fiats" [value]="f.symbol">{{ f.name }} ({{ f.symbol }})</option>
     </select>
   </div>
 
-  <div class="result" *ngIf="result !== null">
-    <span class="result-label">Risultato</span>
-    <span class="result-value">{{ euroAmount | currency:'EUR' }} = {{ result | number:'1.2-2' }} {{ selectedFiat }}</span>
-  </div>
+  @if (conversionData()) {
+    <div class="result">
+      <div class="result-row">
+        <span class="result-label">Saldo in EUR</span>
+        <span class="result-value">{{ conversionData().fiat_balance ?? conversionData().original_balance | number:'1.2-2' }} EUR </span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Valore in {{ conversionData().to_currency ?? selectedFiat() }}</span>
+        <span class="result-value crypto">{{ conversionData().converted_balance ?? conversionData().converted_amount | number:'1.2-2' }} {{ conversionData().to_currency ?? selectedFiat() }}</span>
+      </div>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="result loading">
+      <span class="result-label">Conversione in corso...</span>
+    </div>
+  }
 </section>

@@ -53,11 +53,7 @@ doDeposit(accountId: number, amount: number, description: string): Observable<Tr
     return this.http.post<Transaction>(url, body);
   }
 
-  getFiatValue(accountId: number): Observable<Transaction> {
-    return this.http.get<Transaction>(
-      `${this.apiUrl}/accounts/${accountId}/balance/convert/fiat`
-    );
-    }
+
 
   convertToCrypto(accountId: number, toCrypto: string): Observable<any> {
     const params = new HttpParams().set('to', toCrypto);
@@ -68,11 +64,16 @@ doDeposit(accountId: number, amount: number, description: string): Observable<Tr
     );
 
   }
+    convertToFiat(accountId: number, toCrypto: string): Observable<any> {
+    const params = new HttpParams().set('to', toCrypto);
+    return this.http.get(
+      `${this.apiUrl}/accounts/${accountId}/balance/convert/fiat`,
+      { params }
 
-  getCryptoValue(accountId: number): Observable<Transaction> {
-    return this.http.get<Transaction>(
-      `${this.apiUrl}/accounts/${accountId}/balance/convert/crypto`
     );
+
   }
+
+
 
 }

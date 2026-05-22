@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Bankservice } from '../../bankservice';
@@ -10,28 +10,34 @@ import { Bankservice } from '../../bankservice';
   styleUrl: './fiat.css',
 })
 export class Fiat {
-  euroAmount: number = 0;
-  selectedFiat: string = 'USD';
-  result: number | null = null;
+  selectedFiat = signal<string>('USD');
+  loading = signal<boolean>(false);
+  conversionData = signal<any | null>(null);
 
-  rates: { [key: string]: number } = {
-    'USD': 1.08,
-    'GBP': 0.86,
-    'CHF': 0.94,
-    'JPY': 162.5,
-  };
+  fiats: { symbol: string; name: string }[] = [
+    { symbol: 'USD', name: 'Dollaro USA' },
+    { symbol: 'GBP', name: 'Sterlina Britannica' },
+    { symbol: 'CHF', name: 'Franco Svizzero' },
+    { symbol: 'JPY', name: 'Yen Giapponese' },
+  ];
 
-  constructor(private bankService: Bankservice) {}
-
-  convert() {
-    this.result = this.euroAmount * this.rates[this.selectedFiat];
+  constructor(private bankService: Bankservice) {
+    effect(() => {
+      this.selectedFiat();
+      this.conversionData.set(null);
+      this.convert();
+    });
   }
 
-  useCurrentBalance() {
-    this.bankService.getBalance(1).subscribe({
+  convert() {
+    this.loading.set(true);
+    this.bankService.convertToFiat(1, this.selectedFiat()).subscribe({
       next: (res: any) => {
-        this.euroAmount = res?.balance ?? res;
-        this.convert();
+        this.conversionData.set(res);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
       },
     });
   }
