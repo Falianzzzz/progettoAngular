@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {  Transaction } from '../../model';
+import { Component, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Bankservice } from '../../bankservice';
-import { Movimento } from '../../movimento';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,19 +11,20 @@ import { Subscription } from 'rxjs';
   styleUrl: './lista-movimenti.css',
   imports: [CommonModule, RouterLink],
 })
-export class ListaMovimenti implements OnInit, OnDestroy {
-  movimenti: Movimento[] = [];
-  private sub?: Subscription;
+export class ListaMovimenti implements OnInit {
 
+movimenti = signal<Transaction[]>([]);
   constructor(private bankservice: Bankservice) {}
 
-  ngOnInit(): void {
-    this.sub = this.bankservice.getMovimenti().subscribe((movimenti) => {
-      this.movimenti = movimenti;
-    });
-  }
+ ngOnInit(): void {
 
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
+
+  this.bankservice.getTransactions(1).subscribe({
+    next: (data: any) => {
+      this.movimenti.set(data);
+    }
+  });
+
+}
+
 }

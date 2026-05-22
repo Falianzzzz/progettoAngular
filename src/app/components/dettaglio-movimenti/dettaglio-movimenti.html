@@ -1,12 +1,12 @@
 <section class="section-card page-section">
   <h2 class="page-title">Dettaglio movimento</h2>
 
-  <div *ngIf="movimento" class="dettaglio-card">
-    <p><strong>Id:</strong> {{ movimento.id }}</p>
-    <p><strong>Data:</strong> {{ movimento.data }}</p>
-    <p><strong>Tipo:</strong> {{ movimento.tipo }}</p>
-    <p><strong>Importo:</strong> €{{ movimento.importo }}</p>
-    <p><strong>Descrizione:</strong> {{ movimento.descrizione }}</p>
+  <div  class="dettaglio-card">
+    <p><strong>Id:</strong> {{ movimento()?.id }}</p>
+    <p><strong>Data:</strong> {{ movimento()?.created_at }}</p>
+    <p><strong>Tipo:</strong> {{ movimento()?.type }}</p>
+    <p><strong>Importo:</strong> €{{ movimento()?.amount }}</p>
+    <p><strong>Descrizione:</strong> {{ movimento()?.description }}</p>
     <button class="btn-secondary" (click)="back()">Indietro</button>
   </div>
 </section>

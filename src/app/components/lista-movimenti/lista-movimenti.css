@@ -1,0 +1,49 @@
+.movimento-deposit {
+  border-left: 4px solid var(--success);
+}
+
+.movimento-withdrawal {
+  border-left: 4px solid var(--danger);
+}
+
+.movimento-type {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.type-deposit {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.type-withdrawal {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.movimento-amount {
+  font-size: 1.125rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.amount-deposit {
+  color: var(--success);
+}
+
+.amount-withdrawal {
+  color: var(--danger);
+}
+
+.movimento-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 6px !important;
+  margin-bottom: 0 !important;
+}

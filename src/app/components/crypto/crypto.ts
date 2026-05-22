@@ -10,24 +10,20 @@ import { Bankservice } from '../../bankservice';
   styleUrl: './crypto.css',
 })
 export class Crypto {
+rates: any;
+useCurrentBalance() {
+throw new Error('Method not implemented.');
+}
   euroAmount: number = 0;
-  selectedCrypto: string = 'BTC';
+  selectedCrypto: string = '';
   result: number | null = null;
 
-  rates: { [key: string]: number } = {
-    'BTC': 0.000016,
-    'ETH': 0.00045,
-    'SOL': 0.0075,
-  };
+convert(){
+
+
+
+}
 
   constructor(private bankService: Bankservice) {}
 
-  convert() {
-    this.result = this.euroAmount * this.rates[this.selectedCrypto];
-  }
-
-  useCurrentBalance() {
-    this.euroAmount = this.bankService.getConto();
-    this.convert();
-  }
 }

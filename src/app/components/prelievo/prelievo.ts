@@ -10,35 +10,29 @@ import { CommonModule } from '@angular/common';
   styleUrl: './prelievo.css',
 })
 export class Prelievo {
-  amount: number = 0;
-  descrizione: string = '';
-  message: string = '';
-  error: string = '';
-  isLoading = false;
-
   constructor(private bankservice: Bankservice) {}
 
-  prelieva() {
-    this.message = '';
-    this.error = '';
-
-    if (!this.amount || this.amount <= 0) {
-      this.error = 'Inserisci un importo valido.';
+preleva() {
+  if (this.amount <= 0) {
+      alert('Insert a valid import');
       return;
     }
 
-    this.isLoading = true;
-    this.bankservice.prelievoConto(this.amount, this.descrizione).subscribe({
+    this.bankservice.doWithdrawals(1, this.amount, this.description).subscribe({
       next: () => {
-        this.message = 'Prelievo effettuato con successo.';
+        this.message = 'Prelievo effettuato con successo';
         this.amount = 0;
-        this.descrizione = '';
-        this.isLoading = false;
+        this.description = '';
       },
       error: () => {
-        this.error = 'Errore durante il prelievo. Riprova.';
-        this.isLoading = false;
+        this.message = 'Errore durante il prelievo';
       },
     });
   }
+          message = 'Prelievo effettuato con successo';
+        amount = 0;
+        description = '';
 }
+
+
+

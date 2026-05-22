@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Movimento } from './movimento';
+import { Transaction } from './model';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,145 +8,60 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class Bankservice {
-  private readonly apiUrl = 'https://bankingapi-production-2687.up.railway.app';
+  private readonly apiUrl = 'http://localhost:8080';
   private readonly accountId = 1;
 
-  movimenti: Movimento[] = [
-    {
-      id: 0,
-      data: new Date(),
-      tipo: 'Deposito',
-      importo: 1000,
-      descrizione: 'Versamento in conto',
-    },
-    {
-      id: 1,
-      data: new Date(),
-      tipo: 'Prelievo',
-      importo: 200,
-      descrizione: 'Prelievo bancomat',
-    },
-  ];
+  movimenti: Transaction[] = [];
 
-  private saldoSubject = new BehaviorSubject<number>(this.calculateLocalSaldo());
-  saldo$: Observable<number> = this.saldoSubject.asObservable();
+
 
   constructor(private http: HttpClient) {
-    this.loadRemoteSaldo();
+
+  }
+ getBalance(accountId: number): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/accounts/${accountId}/balance`
+    );
   }
 
-  private calculateLocalSaldo(): number {
-    let totale = 0;
-    for (const m of this.movimenti) {
-      const tipo = (m.tipo || '').toString().toLowerCase();
-      const isPrelievo = tipo.includes('prelievo');
-      const isDeposito = tipo.includes('deposito');
-      if (isPrelievo) {
-        totale -= m.importo;
-      } else if (isDeposito) {
-        totale += m.importo;
-      }
+ getTransactions(accountId: number): Observable<Transaction> {
+    return this.http.get<Transaction>(
+      `${this.apiUrl}/accounts/${accountId}/transactions`
+    );
+  }
+
+getTransactionById(accountId: number, transactionId: number): Observable<Transaction> {
+    return this.http.get<Transaction>(
+      `${this.apiUrl}/accounts/${accountId}/transactions/${transactionId}`
+    );
+  }
+
+doDeposit(accountId: number, amount: number, description: string): Observable<Transaction> {
+    const url = `${this.apiUrl}/accounts/${accountId}/deposits`;
+    const body = { amount: amount,
+      description: description };
+
+    return this.http.post<Transaction>(url, body);
+  }
+
+  doWithdrawals(accountId: number, amount: number, description: string): Observable<Transaction> {
+    const url = `${this.apiUrl}/accounts/${accountId}/withdrawals`;
+    const body = { amount: amount,
+      description: description };
+
+    return this.http.post<Transaction>(url, body);
+  }
+
+  getFiatValue(accountId: number): Observable<Transaction> {
+    return this.http.get<Transaction>(
+      `${this.apiUrl}/accounts/${accountId}/balance/convert/fiat`
+    );
     }
-    return totale;
-  }
 
-  private loadRemoteSaldo() {
-    this.http
-      .get<{ balance: number }>(`${this.apiUrl}/accounts/${this.accountId}/balance`)
-      .pipe(
-        map((result) => result.balance),
-        catchError(() => of(this.calculateLocalSaldo()))
-      )
-      .subscribe((balance) => this.saldoSubject.next(balance));
-  }
+      getCryptoValue(accountId: number): Observable<Transaction> {
+    return this.http.get<Transaction>(
+      `${this.apiUrl}/accounts/${accountId}/balance/convert/crypto`
+    );
+    }
 
-  private refreshSaldo() {
-    this.loadRemoteSaldo();
-  }
-
-  getConto(): number {
-    return this.saldoSubject.value;
-  }
-
-  getBalance(): Observable<number> {
-    return this.http
-      .get<{ balance: number }>(`${this.apiUrl}/accounts/${this.accountId}/balance`)
-      .pipe(map((result) => result.balance));
-  }
-
-  getMovimenti(): Observable<Movimento[]> {
-    return this.http
-      .get<{ transactions: any[] }>(`${this.apiUrl}/accounts/${this.accountId}/transactions`)
-      .pipe(
-        map((result) => result.transactions.map((tx) => this.mapTransaction(tx))),
-        catchError(() => of(this.movimenti))
-      );
-  }
-
-  getMovimentoById(id: number): Observable<Movimento | undefined> {
-    return this.http
-      .get<any>(`${this.apiUrl}/accounts/${this.accountId}/transactions/${id}`)
-      .pipe(
-        map((tx) => this.mapTransaction(tx)),
-        catchError(() => of(this.movimenti.find((m) => m.id === id)))
-      );
-  }
-
-  depositaConto(dep: number, descrizione: string): Observable<any> {
-    return this.http
-      .post<any>(`${this.apiUrl}/accounts/${this.accountId}/deposits`, {
-        amount: dep,
-        description: descrizione,
-      })
-      .pipe(
-        tap(() => this.refreshSaldo()),
-        catchError((error) => {
-          this.refreshSaldo();
-          throw error;
-        })
-      );
-  }
-
-  prelievoConto(dep: number, descrizione: string): Observable<any> {
-    return this.http
-      .post<any>(`${this.apiUrl}/accounts/${this.accountId}/withdrawals`, {
-        amount: dep,
-        description: descrizione,
-      })
-      .pipe(
-        tap(() => this.refreshSaldo()),
-        catchError((error) => {
-          this.refreshSaldo();
-          throw error;
-        })
-      );
-  }
-
-  private mapTransaction(tx: any): Movimento {
-    return {
-      id: tx.id,
-      data: new Date(tx.created_at),
-      tipo: tx.type === 'deposit' ? 'Deposito' : 'Prelievo',
-      importo: Number(tx.amount),
-      descrizione: tx.description || '',
-    };
-  }
-
-  createMovimento(tipo: string, importo: number, descrizione: string) {
-    const nextId = this.movimenti.length;
-    const movimento: Movimento = {
-      id: nextId,
-      data: new Date(),
-      tipo,
-      importo,
-      descrizione,
-    };
-    this.movimenti.push(movimento);
-    this.saldoSubject.next(this.calculateLocalSaldo());
-  }
-
-  addMovimento(movimento: Movimento) {
-    this.movimenti.push(movimento);
-    this.saldoSubject.next(this.calculateLocalSaldo());
-  }
 }

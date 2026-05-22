@@ -1,7 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Signal, signal } from '@angular/core';
 import { Bankservice } from '../../bankservice';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-saldo',
@@ -9,19 +13,25 @@ import { Subscription } from 'rxjs';
   templateUrl: './saldo.html',
   styleUrl: './saldo.css',
 })
-export class Saldo implements OnInit, OnDestroy {
-  saldo: number = 0;
-  private sub?: Subscription;
+export class Saldo implements OnInit {
+  saldo = signal(0);
+  saldoData: { balance: number } = { balance: 0 };
 
   constructor(private bankservice: Bankservice) {}
 
-  ngOnInit(): void {
-    this.sub = this.bankservice.saldo$.subscribe((value) => {
-      this.saldo = value;
-    });
-  }
+ ngOnInit(): void {
 
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
+  this.bankservice.getBalance(1).subscribe({
+
+    next: (data) => {
+
+      this.saldoData = data;
+
+      console.log(this.saldoData.balance);
+      this.saldo.set(this.saldoData.balance);
+    }
+
+  });
+
+}
 }

@@ -1,20 +1,29 @@
+
 <section class="section-card page-section">
   <div class="page-header">
     <h2 class="page-title">Lista movimenti</h2>
     <p class="page-subtitle">Visualizza tutte le operazioni del conto.</p>
   </div>
 
-  <div *ngFor="let movimento of movimenti" class="movimento-card">
+  <div class="movimento-card"
+       [class.movimento-deposit]="movimento.type === 'deposit'"
+       [class.movimento-withdrawal]="movimento.type === 'withdrawal'"
+       *ngFor="let movimento of movimenti()">
     <a [routerLink]="['/movimenti', movimento.id]" class="movimento-link">
       <div class="movimento-card-row">
-        <p><strong>Data:</strong> {{ movimento.data }}</p>
-        <span class="muted">#{{ movimento.id }}</span>
+        <span class="movimento-type"
+              [class.type-deposit]="movimento.type === 'deposit'"
+              [class.type-withdrawal]="movimento.type === 'withdrawal'">
+          {{ movimento.type === 'deposit' ? 'Deposito' : 'Prelievo' }}
+        </span>
+        <span class="movimento-amount"
+              [class.amount-deposit]="movimento.type === 'deposit'"
+              [class.amount-withdrawal]="movimento.type === 'withdrawal'">
+          {{ movimento.type === 'deposit' ? '+' : '-' }}€{{ movimento.amount }}
+        </span>
       </div>
-      <div class="movimento-card-row">
-        <p><strong>Tipo:</strong> {{ movimento.tipo }}</p>
-        <p><strong>Importo:</strong> €{{ movimento.importo }}</p>
-      </div>
-      <p><strong>Descrizione:</strong> {{ movimento.descrizione }}</p>
+      <p *ngIf="movimento.description" class="movimento-desc">{{ movimento.description }}</p>
     </a>
   </div>
 </section>
+

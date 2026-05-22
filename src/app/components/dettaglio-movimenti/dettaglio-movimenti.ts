@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bankservice } from '../../bankservice';
-import { Movimento } from '../../movimento';
+import { Transaction } from '../../model';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -11,31 +11,22 @@ import { Subscription } from 'rxjs';
   templateUrl: './dettaglio-movimenti.html',
   styleUrl: './dettaglio-movimenti.css',
 })
-export class DettaglioMovimenti implements OnInit, OnDestroy {
-  movimento?: Movimento;
-  private sub?: Subscription;
-
-  constructor(
-    private route: ActivatedRoute,
-    private bankservice: Bankservice,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    const id = idParam ? Number(idParam) : NaN;
-    if (!isNaN(id)) {
-      this.sub = this.bankservice.getMovimentoById(id).subscribe((movimento) => {
-        this.movimento = movimento;
-      });
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
-
-  back() {
+export class DettaglioMovimenti implements OnInit{
+  movimento = signal<Transaction | null>(null);
+constructor(private route: ActivatedRoute, private bankservice: Bankservice, private router: Router) {}
+back() {
     this.router.navigate(['/movimenti']);
-  }
+}
+ngOnInit() {
+
+    const paramid = this.route.snapshot.paramMap.get('id');
+  const id = paramid ? Number(paramid) : NaN;
+    this.bankservice.getTransactionById(1, id).subscribe((data) => {
+      this.movimento.set(data);
+      console.log(this.movimento());
+    });
+
+
+}
+
 }
