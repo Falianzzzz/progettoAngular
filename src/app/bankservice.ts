@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Transaction } from './model';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Bankservice {
-  private readonly apiUrl = 'http://localhost:8080';
+  private readonly apiUrl = '/api';
   private readonly accountId = 1;
 
   movimenti: Transaction[] = [];
@@ -58,10 +59,20 @@ doDeposit(accountId: number, amount: number, description: string): Observable<Tr
     );
     }
 
-      getCryptoValue(accountId: number): Observable<Transaction> {
+  convertToCrypto(accountId: number, toCrypto: string): Observable<any> {
+    const params = new HttpParams().set('to', toCrypto);
+    return this.http.get(
+      `${this.apiUrl}/accounts/${accountId}/balance/convert/crypto`,
+      { params }
+
+    );
+
+  }
+
+  getCryptoValue(accountId: number): Observable<Transaction> {
     return this.http.get<Transaction>(
       `${this.apiUrl}/accounts/${accountId}/balance/convert/crypto`
     );
-    }
+  }
 
 }
